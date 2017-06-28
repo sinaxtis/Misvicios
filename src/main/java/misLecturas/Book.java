@@ -1,22 +1,23 @@
 package misLecturas;
-import java.util.List;
+
 
 public class Book {
 	private String title;
-	private List<Author> authors;
+	private Author author;
 	private BookState bookState;
-	private List<Genere> generes;
+	private Genere genere;
+	private int duracion;
 	public void setTitle(String title) {
 		this.title = title;
 	}
 	public String getTitle() {
 		return title;
 	}
-	public List<Author> getAuthors() {
-		return authors;
+	public Author getAuthor() {
+		return author;
 	}
-	public void setAuthors(List<Author> authors) {
-		this.authors = authors;
+	public void setAuthor(Author author) {
+		this.author = author;
 	}
 	public BookState getBookState() {
 		return bookState;
@@ -24,11 +25,27 @@ public class Book {
 	public void setBookState(BookState bookState) {
 		this.bookState = bookState;
 	}
-	public List<Genere> getGeneres() {
-		return generes;
+	public Genere getGenere() {
+		return genere;
 	}
-	public void setGeneres(List<Genere> generes) {
-		this.generes = generes;
+	public void setGenere(Genere genere) {
+		this.genere = genere;
+	}
+	public String toString(){
+		return this.getTitle();
+	}
+	public Book(String title, Author author, BookState bookState, Genere genere, int duracion){
+		this.title = title;
+		this.author = author;
+		this.bookState = bookState;
+		this.genere = genere;
+		this.duracion = duracion;
+	}
+	public int getDuracion() {
+		return duracion;
+	}
+	public void setDuracion(int duracion) {
+		this.duracion = duracion;
 	}
 	
 }

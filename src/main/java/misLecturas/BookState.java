@@ -15,4 +15,11 @@ public class BookState {
 	public void setId(int id) {
 		this.id = id;
 	}
+	public BookState(int id, String name){
+		this.id = id;
+		this.name = name;
+	}
+	public String toString(){
+		return this.getName();
+	}
 }

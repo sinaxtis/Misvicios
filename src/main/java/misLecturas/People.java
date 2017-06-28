@@ -22,5 +22,6 @@ public abstract class People {
 		this.name = name;
 		this.lastname = lastname;
 	}
+	public abstract String getDatos();
 	
 }
