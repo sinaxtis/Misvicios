@@ -52,13 +52,13 @@ public class App
         books.add(book8);
         books.add(book9);
         BookHistory bookList = new BookHistory(books);
-        /*
+        
         System.out.println(bookList.librosLeidos());
         System.out.println(bookList.librosPorLeer());
         System.out.println(bookList.seleccionCola());
         System.out.println(bookList.seleccionPila());
         System.out.println(bookList.duracionTotal((bookList.getBooks().size()-1)));
-        */
+        
         try {
         	Scanner scnr = new Scanner(System.in);
             System.out.println("Presione 1 para ingresar sus credenciales de acceso");
@@ -183,12 +183,12 @@ public class App
     	return false;
     }
     static void rango(int num)throws ExceptionMisvicios{
-        if((num<0)||(num>3)){
+        if((num<=0)||(num>3)){
             throw new ExceptionMisvicios("Números fuera de rango del menu");
         }
     }
     static void rangoMenu(int num)throws ExceptionMisvicios{
-        if((num<0)||(num>5)){
+        if((num<=0)||(num>5)){
             throw new ExceptionMisvicios("Números fuera de rango del menu");
         }
     }
