@@ -9,7 +9,10 @@ import misLecturas.*;
 
 public class App 
 {
+	static Scanner scnr;
+	static int rllnum;
 	static Users usActive;
+	static BookHistory bookList;
 	static Users us1 = new Users("mike", "Mike", "DeAntoni");
 	static Users us2 = new Users("cacho", "Cacho", "Gates");
 	static Users us3 = new Users("mikel", "Mikel", "Pelochis");
@@ -51,87 +54,58 @@ public class App
         books.add(book7);
         books.add(book8);
         books.add(book9);
-        BookHistory bookList = new BookHistory(books);
-        
+        bookList = new BookHistory(books);
+        //System.out.println(usActive.getBookList().librosLeidos());
         System.out.println(bookList.librosLeidos());
         System.out.println(bookList.librosPorLeer());
         System.out.println(bookList.seleccionCola());
         System.out.println(bookList.seleccionPila());
         System.out.println(bookList.duracionTotal((bookList.getBooks().size()-1)));
         
-        try {
-        	Scanner scnr = new Scanner(System.in);
-            System.out.println("Presione 1 para ingresar sus credenciales de acceso");
-            System.out.println("Presione 2 para crear credenciales de acceso");
-            int rllnum=scnr.nextInt();
-            rango(rllnum);
-            switch(rllnum){
-                case 1:
-                    try {
-            			if (login()){
-            				System.out.println(usActive.getDatos());
-            				System.out.println("Bienvenido");
-            	            System.out.println("Presione 1 para ver su lista de libros leidos");
-            	            System.out.println("Presione 2 para ver su lista de libros por leer");
-            	            System.out.println("Presione 3 para obtener una recomendacion de lectura pila");
-            	            System.out.println("Presione 4 para obtener una recomendacion de lectura cola");
-            	            System.out.println("Presione 5 para obtener cantidad de tiempo de lectura restante (metodo recursivo)");
-            	            int il=scnr.nextInt();
-            	            rangoMenu(il);
-            	            switch(il){
-            	            	case 1:
-            	            		System.out.println(bookList.librosLeidos());
-            	            		break;
-            	            	case 2:
-            	            		System.out.println(bookList.librosPorLeer());
-            	            		break;
-            	            	case 3:
-            	            		System.out.println(bookList.seleccionPila());
-            	            		break;
-            	            	case 4:
-            	            		System.out.println(bookList.seleccionCola());
-            	            		break;
-            	            	case 5:
-            	            		System.out.println(bookList.duracionTotal((bookList.getBooks().size()-1)));
-            	            		break;
-            	            }
-            			}
-            			else{
-            				System.out.println("Hubo un problema con su login");
-            			}
-            		} catch (IOException e) {
-            			System.out.print("Hubo un problema con su login");
-            		
-            		}
-                    break;
-                case 2:
-                	try {
-            			if (signup()){
-            				System.out.println(usActive.getDatos());
-            				System.out.println("Bienvenido");
-            			}
-            			else{
-            				System.out.println("Hubo un problema en su registracion");
-            			}
-            		} catch (IOException e) {
-            			System.out.print("Hubo un problema en su registracion");
-            		
-            		}
+        boolean continuarCiclo = true;
+        do{
+            try {
+            	menuIngreso();
+                switch(rllnum){
+                    case 1:
+                        try {
+                			if (login()){
+                				System.out.println(usActive.getDatos());
+                				System.out.println("Bienvenido");
+                				menuOpciones();
+                				continuarCiclo = false;
+                			}
+                			else{
+                				System.out.println("Hubo un problema con su login");
+                			}
+                		} catch (IOException e) {
+                			System.out.print("Hubo un problema con su login");
+                		
+                		}
+                        break;
+                    case 2:
+                    	try {
+                			if (signup()){
+                				System.out.println(usActive.getDatos());
+                				System.out.println("Bienvenido");
+                				System.out.println("Bienvenido");
+                				menuOpciones();
+                				continuarCiclo = false;
+                			}
+                			else{
+                				System.out.println("Hubo un problema en su registracion");
+                			}
+                		} catch (IOException e) {
+                			System.out.print("Hubo un problema en su registracion");
+                		
+                		}
+                }
             }
-        }
-        catch (InputMismatchException e){
-        	System.out.println("No ingrese letras");
-        }
-        // crear metodo de login
-        // crear metodo de carga de datos
-        // 1 Ver lista de libros leidos
-        // 2 Ver lista de libros para leer cola
-        // 3 Ver lista de libros para leer pila
-        //System.out.println("Presione 2 para crear credenciales de acceso");
-        // crear metodo de signup
-        /*System.out.println("Ingrese su usuario");
-        System.out.println(aut.getDatos());
-        System.out.println(us1.getDatos());*/
+            catch (InputMismatchException e){
+            	System.out.println("No ingrese letras");
+            }
+        } while(continuarCiclo);
+
         
     }
     public static boolean signup() throws IOException, ExceptionMisvicios{
@@ -165,6 +139,7 @@ public class App
        Users usNew = new Users(username, name, lastname);
        users.add(usNew);
        usActive = usNew;
+       usActive.setBookList(bookList);
        return true;
     }
     public static boolean login() throws IOException{
@@ -177,6 +152,7 @@ public class App
     	for (Users user : users) {
     		if(user.getUsername().compareTo(username) == 0){
     			usActive = user;
+    			usActive.setBookList(bookList);
     			return true;
     		}
     	}
@@ -191,5 +167,58 @@ public class App
         if((num<=0)||(num>5)){
             throw new ExceptionMisvicios("Números fuera de rango del menu");
         }
+    }
+    static void rangoMenuFinal(int num)throws ExceptionMisvicios{
+        if((num<0)||(num>1)){
+            throw new ExceptionMisvicios("Números fuera de rango del menu");
+        }
+    }
+    static void menuIngreso() throws ExceptionMisvicios{
+    	scnr = new Scanner(System.in);
+        System.out.println("Presione 1 para ingresar sus credenciales de acceso");
+        System.out.println("Presione 2 para crear credenciales de acceso");
+        rllnum=scnr.nextInt();
+        rango(rllnum);
+    }
+    static void menuOpciones() throws ExceptionMisvicios{
+    	System.out.println("Presione 1 para ver su lista de libros leidos");
+        System.out.println("Presione 2 para ver su lista de libros por leer");
+        System.out.println("Presione 3 para obtener una recomendacion de lectura pila");
+        System.out.println("Presione 4 para obtener una recomendacion de lectura cola");
+        System.out.println("Presione 5 para obtener cantidad de tiempo de lectura restante (metodo recursivo)");
+        int il=scnr.nextInt();
+        rangoMenu(il);
+        switch(il){
+        	case 1:
+        		System.out.println(usActive.getBookList().librosLeidos());
+        		break;
+        	case 2:
+        		System.out.println(usActive.getBookList().librosPorLeer());
+        		break;
+        	case 3:
+        		System.out.println(usActive.getBookList().seleccionPila());
+        		break;
+        	case 4:
+        		System.out.println(usActive.getBookList().seleccionCola());
+        		break;
+        	case 5:
+        		System.out.println(usActive.getBookList().duracionTotal((bookList.getBooks().size()-1)));
+        		break;
+        }
+        
+        System.out.println("Presione 0 para finalizar el programa");
+        System.out.println("Presione 1 para ver las opciones nuevamente");
+        int s=scnr.nextInt();
+        rangoMenuFinal(s);
+        switch(s){
+        	case 0:
+        		System.exit(0);
+        		break;
+        	case 1:
+        		menuOpciones();
+        		break;
+        }
+        
+        
     }
 }
